@@ -91,6 +91,12 @@ namespace Steamworks.Ugc
 
 			return this;
 		}
+		public Editor WithTags(IEnumerable<string> tags)
+		{
+			if ( Tags == null ) Tags = new List<string>();
+			Tags.AddRange(tags);
+			return this;
+		}
 
 		/// <summary>
 		/// Adds a key-value tag pair to an item. 
