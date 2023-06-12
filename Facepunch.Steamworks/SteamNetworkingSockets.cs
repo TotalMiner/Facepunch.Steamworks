@@ -39,8 +39,8 @@ namespace Steamworks
 			InstallEvents( server );
 			return true;
 		}
-	
-#region SocketInterface
+
+		#region SocketInterface
 
 		static readonly Dictionary<uint, SocketManager> SocketInterfaces = new Dictionary<uint, SocketManager>();
 
@@ -60,9 +60,9 @@ namespace Steamworks
 			if ( id == 0 ) throw new System.ArgumentException( "Invalid Socket" );
 			SocketInterfaces[id] = manager;
 		}
-#endregion
+		#endregion
 
-#region ConnectionInterface
+		#region ConnectionInterface
 		static readonly Dictionary<uint, ConnectionManager> ConnectionInterfaces = new Dictionary<uint, ConnectionManager>();
 
 		internal static ConnectionManager GetConnectionManager( uint id )
@@ -81,7 +81,7 @@ namespace Steamworks
 			if ( id == 0 ) throw new System.ArgumentException( "Invalid Connection" );
 			ConnectionInterfaces[id] = manager;
 		}
-#endregion
+		#endregion
 
 
 
@@ -227,7 +227,11 @@ namespace Steamworks
 		/// </summary>
 		public static SocketManager CreateRelaySocket( int virtualport, ISocketManager intrface )
 		{
-			var options = Array.Empty<NetKeyValue>();
+			NetKeyValue x = default;
+			x.Int32Value = 3000000;
+			x.Value = NetConfig.MTU_DataSize;
+			var options = new NetKeyValue[] { x };
+
 			var socket = Internal.CreateListenSocketP2P( virtualport, options.Length, options );
 
 			var t = new SocketManager
