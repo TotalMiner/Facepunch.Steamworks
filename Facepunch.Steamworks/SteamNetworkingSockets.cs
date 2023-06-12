@@ -227,12 +227,7 @@ namespace Steamworks
 		/// </summary>
 		public static SocketManager CreateRelaySocket( int virtualport, ISocketManager intrface )
 		{
-			NetKeyValue x = default;
-			x.Int32Value = 3000000;
-			x.DataType = NetConfigType.Int32;
-			x.Value = NetConfig.MTU_PacketSize;
-			var options = new NetKeyValue[] { x };
-
+			var options = Array.Empty<NetKeyValue>();
 			var socket = Internal.CreateListenSocketP2P( virtualport, options.Length, options );
 
 			var t = new SocketManager

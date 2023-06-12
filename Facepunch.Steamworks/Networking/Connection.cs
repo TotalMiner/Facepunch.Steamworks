@@ -86,7 +86,6 @@ namespace Steamworks.Data
 			message->DataSize = size;
 			message->FreeDataPtr = BufferManager.FreeFunctionPointer;
 			message->IdxLane = laneIndex;
-
 			long messageNumber = 0;
 			SteamNetworkingSockets.Internal.SendMessages( 1, &message, &messageNumber );
 
