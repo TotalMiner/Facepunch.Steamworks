@@ -229,6 +229,7 @@ namespace Steamworks
 		{
 			NetKeyValue x = default;
 			x.Int32Value = 3000000;
+			x.DataType = NetConfigType.Int32;
 			x.Value = NetConfig.MTU_DataSize;
 			var options = new NetKeyValue[] { x };
 
