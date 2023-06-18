@@ -132,7 +132,7 @@ namespace Steamworks.Ugc
 			return this;
 		}
 
-		public async Task<PublishResult> SubmitAsync( IProgress<float> progress = null, Action<PublishResult> onItemCreated = null )
+		public async Task<PublishResult> SubmitAsync( IProgress<float> progress = null, Action<PublishResult> onItemPublished = null )
 		{
 			var result = default( PublishResult );
 
@@ -172,9 +172,6 @@ namespace Steamworks.Ugc
 				fileId = created.Value.PublishedFileId;
 				result.NeedsWorkshopAgreement = created.Value.UserNeedsToAcceptWorkshopLegalAgreement;
 				result.FileId = fileId;
-
-				if ( onItemCreated != null )
-					onItemCreated( result );
 			}
 
 
@@ -286,7 +283,8 @@ namespace Steamworks.Ugc
 				result.FileId = fileId;
 
 			}
-
+			if (onItemPublished != null)
+				onItemPublished(result);
 			return result;
 		}
 	}
