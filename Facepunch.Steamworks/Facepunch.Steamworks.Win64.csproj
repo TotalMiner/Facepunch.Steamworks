@@ -8,6 +8,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<RootNamespace>Steamworks</RootNamespace>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup>
