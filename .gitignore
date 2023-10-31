@@ -76,3 +76,6 @@ Generator/bin
 .vs
 Facepunch.Steamworks.Test/bin/**
 /.nuget
+
+!steam_api.dll
+!steam_api64.dll
