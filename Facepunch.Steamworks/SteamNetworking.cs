@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -28,7 +31,7 @@ namespace Steamworks
 		internal static void InstallEvents( bool server )
 		{
 			Dispatch.Install<P2PSessionRequest_t>( x => OnP2PSessionRequest?.Invoke( x.SteamIDRemote ), server );
-			Dispatch.Install<P2PSessionConnectFail_t>( x => OnP2PConnectionFailed?.Invoke( x.SteamIDRemote, (P2PSessionError) x.P2PSessionError ), server );
+			Dispatch.Install<P2PSessionConnectFail_t>( x => OnP2PConnectionFailed?.Invoke( x.SteamIDRemote, (P2PSessionError)x.P2PSessionError ), server );
 		}
 
 		/// <summary>
@@ -72,7 +75,7 @@ namespace Steamworks
 			uint _ = 0;
 			return Internal.IsP2PPacketAvailable( ref _, channel );
 		}
-		
+
 		/// <summary>
 		/// Checks if a P2P packet is available to read, and gets the size of the message if there is one.
 		/// </summary>
@@ -92,13 +95,13 @@ namespace Steamworks
 			if ( !Internal.IsP2PPacketAvailable( ref size, channel ) )
 				return null;
 
-			var buffer = Helpers.TakeBuffer( (int) size );
+			var buffer = Helpers.TakeBuffer( (int)size );
 
 			fixed ( byte* p = buffer )
 			{
 				SteamId steamid = 1;
-				if ( !Internal.ReadP2PPacket( (IntPtr)p, (uint) buffer.Length, ref size, ref steamid, channel ) || size == 0 )
-				    return null;
+				if ( !Internal.ReadP2PPacket( (IntPtr)p, (uint)buffer.Length, ref size, ref steamid, channel ) || size == 0 )
+					return null;
 
 				var data = new byte[size];
 				Array.Copy( buffer, 0, data, 0, size );
@@ -116,7 +119,8 @@ namespace Steamworks
 		/// </summary>
 		public unsafe static bool ReadP2PPacket( byte[] buffer, ref uint size, ref SteamId steamid, int channel = 0 )
 		{
-			fixed (byte* p = buffer) {
+			fixed ( byte* p = buffer )
+			{
 				return Internal.ReadP2PPacket( (IntPtr)p, (uint)buffer.Length, ref size, ref steamid, channel );
 			}
 		}
@@ -144,6 +148,28 @@ namespace Steamworks
 				return Internal.SendP2PPacket( steamid, (IntPtr)p, (uint)length, (P2PSend)sendType, nChannel );
 			}
 		}
+		/// <summary>
+		/// Sends a P2P packet to the specified user using a pointer to the data.
+		/// This is a session-less API which automatically establishes NAT-traversing or Steam relay server connections.
+		/// NOTE: The first packet send may be delayed as the NAT-traversal code runs.
+		/// </summary>
+		/// <returns></returns>
+		public static bool SendP2PPacket( SteamId steamId, IntPtr dataPtr, int dataLen, int nChannel = 0, P2PSend sendType = P2PSend.Reliable )
+		{
+			if ( dataLen <= 0 )
+				return false;
+			return Internal.SendP2PPacket( steamId, dataPtr, (uint)dataLen, sendType, nChannel );
+		}
+		/// <summary>
+		/// Sends a P2P packet to the specified user, getting the data from the MemoryStream's underlying buffer.
+		/// This is a session-less API which automatically establishes NAT-traversing or Steam relay server connections.
+		/// NOTE: The first packet send may be delayed as the NAT-traversal code runs.
+		/// </summary>
+		/// <returns></returns>
+		public static bool SendP2PPacket( SteamId steamId, MemoryStream dataStream, int dataIndex, int dataLen, int nChannel = 0, P2PSend sendType = P2PSend.Reliable )
+		{
+			return SendP2PPacket( steamId, Marshal.UnsafeAddrOfPinnedArrayElement( dataStream.GetBuffer(), dataIndex ), dataLen, nChannel, sendType );
+		}
 
 		/// <summary>
 		/// Sends a P2P packet to the specified user.
@@ -151,7 +177,7 @@ namespace Steamworks
 		/// NOTE: The first packet send may be delayed as the NAT-traversal code runs.
 		/// </summary>
 		public static unsafe bool SendP2PPacket( SteamId steamid, byte* data, uint length, int nChannel = 1, P2PSend sendType = P2PSend.Reliable )
-		{ 
+		{
 			return Internal.SendP2PPacket( steamid, (IntPtr)data, (uint)length, (P2PSend)sendType, nChannel );
 		}
 
