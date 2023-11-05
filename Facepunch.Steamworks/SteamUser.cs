@@ -35,8 +35,8 @@ namespace Steamworks
 		internal static void InstallEvents()
 		{
 			Dispatch.Install<SteamServersConnected_t>( x => OnSteamServersConnected?.Invoke() );
-			Dispatch.Install<SteamServerConnectFailure_t>( x => OnSteamServerConnectFailure?.Invoke() );
-			Dispatch.Install<SteamServersDisconnected_t>( x => OnSteamServersDisconnected?.Invoke() );
+			Dispatch.Install<SteamServerConnectFailure_t>( x => OnSteamServerConnectFailure?.Invoke(x.Result) );
+			Dispatch.Install<SteamServersDisconnected_t>( x => OnSteamServersDisconnected?.Invoke(x.Result) );
 			Dispatch.Install<ClientGameServerDeny_t>( x => OnClientGameServerDeny?.Invoke() );
 			Dispatch.Install<LicensesUpdated_t>( x => OnLicensesUpdated?.Invoke() );
 			Dispatch.Install<ValidateAuthTicketResponse_t>( x => OnValidateAuthTicketResponse?.Invoke( x.SteamID, x.OwnerSteamID, x.AuthSessionResponse ) );
@@ -59,13 +59,13 @@ namespace Steamworks
 		///	This will occur periodically if the Steam client is not connected, 
 		///	and has failed when retrying to establish a connection.
 		/// </summary>
-		public static event Action OnSteamServerConnectFailure;
+		public static event Action<Result> OnSteamServerConnectFailure;
 
 		/// <summary>
 		/// Invoked when the client has lost connection to the Steam servers.
 		/// Real-time services will be disabled until a matching OnSteamServersConnected has been posted.
 		/// </summary>
-		public static event Action OnSteamServersDisconnected;
+		public static event Action<Result> OnSteamServersDisconnected;
 
 		/// <summary>
 		/// Sent by the Steam server to the client telling it to disconnect from the specified game server, 
