@@ -25,7 +25,7 @@ namespace Steamworks
 
 			if ( !SteamAPI.Init() )
 			{
-				throw new System.Exception( "SteamApi_Init returned false. Steam isn't running, couldn't find Steam, App ID is ureleased, Don't own App ID." );
+				throw new System.Exception( "SteamApi_Init returned false. Either Steam isn't running or the game couldn't find Steam, or the App ID is ureleased, or you don't own App ID." );
 			}
 
 			AppId = appid;
