@@ -9,7 +9,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<RootNamespace>Steamworks</RootNamespace>
 		<Platforms>x64</Platforms>
-		<Configurations>Debug;Release</Configurations>
+		<Configurations>Debug;Retail;Beta</Configurations>
 	</PropertyGroup>
   
 	<PropertyGroup>
