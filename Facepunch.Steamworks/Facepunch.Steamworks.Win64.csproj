@@ -33,7 +33,7 @@
 			<PackagePath>/</PackagePath>
 		</None>
 		<None Include="steam_api64.dll">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
 			<PackagePath>content</PackagePath>
 		</None>
