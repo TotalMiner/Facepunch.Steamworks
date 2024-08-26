@@ -27,6 +27,10 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
   
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|x64'">
+	  <DebugType>none</DebugType>
+	</PropertyGroup>
+  
 	<ItemGroup>
 		<None Include="Facepunch.Steamworks.jpg">
 			<Pack>true</Pack>
