@@ -341,6 +341,8 @@ namespace Steamworks
 		/// </summary>
 		public static bool SetRichPresence( string key, string value )
 		{
+			if (Internal == null)
+				return false;
 			bool success = Internal.SetRichPresence( key, value );
 
 			if ( success ) 
