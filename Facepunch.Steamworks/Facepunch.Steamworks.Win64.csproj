@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<AssemblyName>Facepunch.Steamworks.Win64</AssemblyName>
-		<TargetFrameworks>net46;netstandard2.1;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<DefineConstants>$(DefineConstants);PLATFORM_WIN64;PLATFORM_WIN;PLATFORM_64</DefineConstants>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>	
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
